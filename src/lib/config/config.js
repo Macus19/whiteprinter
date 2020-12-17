@@ -1,9 +1,9 @@
 const baseURL = 'http://whale.vipgz1.idcfengye.com'
+const token = ''
 const account = ''
-const key = ''
 
 export default {
   baseURL,
   account,
-  key
+  token
 }

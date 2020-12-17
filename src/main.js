@@ -6,11 +6,14 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import config from '../src/lib/config/config'
-import axios from 'axios'
+// import axios from 'axios'
+import VueClipboard from 'vue-clipboard2'
+import http from '../src/assets/config/http'
 
+Vue.use(VueClipboard)
 Vue.use(ElementUI)
 Vue.prototype.global = config
-Vue.prototype.axios = axios
+Vue.prototype.axios = http
 
 Vue.config.productionTip = false
 

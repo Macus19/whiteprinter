@@ -13,7 +13,8 @@ module.exports = {
     proxyTable: {
       '/api': {
         // 测试环境
-        target: 'http://whale.vipgz1.idcfengye.com/',  // 接口域名
+        target: 'http://whale.vipgz4.idcfengye.com',  // 接口域名
+        // target: 'http://203.195.139.217/NPU/public/index.php/',
         changeOrigin: true,  //是否跨域
         pathRewrite: {
             '^/api': ''   //需要rewrite重写的,
@@ -59,7 +60,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

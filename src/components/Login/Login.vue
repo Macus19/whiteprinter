@@ -1,6 +1,9 @@
 <template>
   <div class="login-container">
     <div class="login-box">
+      <div class="login-logo-container">
+        <img class="login-logo" src="../../assets/LOGO.png" />
+      </div>
       <p class="login-title">Whale Printer</p>
       <el-row class="username-input" type="flex" align="middle">
         <el-col :span="6">用户名：</el-col>
@@ -11,7 +14,7 @@
       <el-row class="password-input">
         <el-col :span="6">密码：</el-col>
         <el-col :span="15">
-          <el-input type="password" v-model="password"></el-input>
+          <el-input type="password" @keyup.enter.native="login()" v-model="password"></el-input>
         </el-col>
       </el-row>
       <div class="login-btns">
@@ -19,6 +22,9 @@
         <el-button @click="login()">登录</el-button>
       </div>
     </div>
+    <!-- <p>官方测试账号：20181009999</p>
+    <p>测试密码：123</p>
+    <p>（仅供计算机设计大赛使用，请勿恶意用途）</p> -->
   </div>
 </template>
 
@@ -31,9 +37,8 @@ export default {
     }
   },
 
-  components: {
-  },
-
+  components: {},
+  created: () => {},
   methods: {
     turnToRegisterPage: function () {
       this.$router.push('/register')
@@ -51,7 +56,7 @@ export default {
       // }
       this.axios({
         method: 'POST',
-        url: '/api/login',
+        url: `${process.env.API_HOST}/login`,
         data: {
           student_id: this.username,
           student_password: this.password
@@ -67,24 +72,42 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then((res) => {
-        if (res.data === 200) {
+        if (res.data.status === 200) {
+          this.global.token = res.data.token
           this.global.account = this.username
-          this.global.key = this.password
+          localStorage.setItem('token', res.data.token)
+          localStorage.setItem('account', this.username)
           this.turnToMainPage()
+        } else {
+          this.$message({
+            message: '账号或密码错误！',
+            type: 'error'
+          })
         }
+      }).catch((res) => {
+        this.$message({
+          message: '服务器开小差啦~',
+          type: 'error'
+        })
       })
     }
   }
 }
-
 </script>
 <style scoped>
 .login-box {
   width: 500px;
   padding: 20px;
-  margin: 200px auto;
+  margin: 100px auto 80px auto;
   border: 1px solid #808080;
   border-radius: 20px;
+}
+.login-container p {
+  text-align: center;
+  margin: 10px;
+}
+.login-container {
+  overflow: hidden;
 }
 .login-title {
   font-size: 32px;
@@ -102,7 +125,14 @@ export default {
 .login-tip:hover {
   text-decoration: underline;
 }
-.login-btns{
+.login-btns {
   text-align: center;
+}
+.login-logo {
+  width: 100px;
+}
+.login-logo-container {
+  text-align: center;
+  overflow: hidden;
 }
 </style>
